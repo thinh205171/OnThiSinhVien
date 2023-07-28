@@ -1,0 +1,20 @@
+{
+  "account": [
+    {
+      "fullName": "Lê Thịnh",
+      "schools": "Đại học Bách Khoa Hà Nội",
+      "username": "thinhlm3012",
+      "phoneNumber": "0914569073",
+      "password": "$2b$10$zgrxI.FiGbBvbYCEZwhk1exdS56DLFlJFgSiDppdoKfOJ0BO19s/u",
+      "email": "thinh.hust5171@gmail.com"
+    },
+    {
+      "fullName": "Lê Minh Thịnh",
+      "schools": "Đại học Bách Khoa Hà Nội",
+      "username": "thinhthinh",
+      "phoneNumber": "0914569080",
+      "password": "$2b$10$Hg0Az3RDvvWD5.Ni3K8eW.a5UlPsS0WJWYZyxKDGlMd62xFlO5O/a",
+      "email": "thinh.hust51@gmail.com"
+    }
+  ]
+}

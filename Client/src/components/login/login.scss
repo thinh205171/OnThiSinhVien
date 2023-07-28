@@ -1,0 +1,51 @@
+#modal-modal-title {
+  text-align: center;
+  line-height: 1.42857143;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    margin-top: 20px;
+    color: #337ab7;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+
+  .login-button {
+    color: #fff;
+    border-radius: 50px 0 50px 50px;
+    margin: 1.5rem 0;
+    border: none;
+    background-color: #ffb400;
+    padding: 0.6rem 8rem;
+    box-shadow: 0;
+
+    &:hover {
+      background-color: #ffb400;
+    }
+  }
+
+  p {
+    color: #777;
+  }
+
+  .login-facebook {
+    border-radius: 50px 0 50px 50px;
+    color: #fff;
+    background-color: #3a549e;
+    padding: 0.6rem 3rem;
+    margin: 1.5rem 0;
+    border: none;
+    box-shadow: 0;
+
+    &:hover {
+      background-color: #3a549e;
+    }
+  }
+}
