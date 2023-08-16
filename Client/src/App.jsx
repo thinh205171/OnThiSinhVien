@@ -1,17 +1,29 @@
-import './App.scss'
-import Login from './components/login/Login'
-import Register from './components/register/Register'
-import HomePage from './pages/HomePage'
+import React from 'react';
+import Router from './router/Router';
+import './App.scss';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-
   return (
-    <div >
-      <HomePage />
-      <Login />
-      <Register />
+    <div>
+      <React.StrictMode>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Router />
+      </React.StrictMode>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

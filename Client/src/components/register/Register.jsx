@@ -1,24 +1,27 @@
-import React from "react";
+import { React, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Modal } from "@mui/material";
 import { MenuItem } from "@mui/material";
-import { hideRegisterPopup, showRegisterPopup} from "../../actions/registerAction";
-import { showLoginPopup } from '../../actions/loginActions';
 import { useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
+import InputAdornment from "@mui/material/InputAdornment";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-import SchoolIcon from '@mui/icons-material/School';
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
+import SchoolIcon from "@mui/icons-material/School";
 import { Box } from "@mui/material";
-import axios from 'axios';
+import {
+  showLoginPopup,
+  hideRegisterPopup,
+} from "../../featutes/header/headerSlice";
+import { registerUser } from "../../featutes/user/userSlice";
 import "./register.scss";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -38,13 +41,24 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
+    watch,
   } = useForm({
-    mode: 'all'
+    mode: "all",
   });
   const dispatch = useDispatch();
   const showRegisterPopup = useSelector(
-    (state) => state.registerReducer.showRegisterPopup
+    (state) => state.headerPopup.showRegisterPopup,
   );
+
+  const registerStatus = useSelector((state) => state.auth.registerStatus);
+  useEffect(() => {
+    if (registerStatus === 1) {
+      dispatch(hideRegisterPopup());
+      reset();
+      toast.success("User register successfully", { autoClose: 1500 });
+    }
+  }, [registerStatus, dispatch, reset]);
 
   if (!showRegisterPopup) {
     return null;
@@ -56,37 +70,16 @@ export default function Register() {
 
   function handleLoginClick() {
     dispatch(hideRegisterPopup());
-    dispatch(showLoginPopup())
+    dispatch(showLoginPopup());
   }
 
   const onSubmit = async (data) => {
-    try {
-      await axios.post('http://localhost:3000/register', data);
-      alert('Tài khoản đã được lưu.');
-      dispatch(hideRegisterPopup()); 
-      dispatch(showLoginPopup());
-    } catch (error) {
-      console.error('Có lỗi xảy ra khi đăng ký tài khoản.', error);
-
-      if (error.response && error.response.data.error === 'Confirm password does not match') {
-        alert('Confirm password does not match');
-      }
-
-      if (error.response && error.response.data.error === 'Username already exists') {
-        alert('Username already exists');
-      }
-
-      if (error.response && error.response.data.error === 'Email already exists') {
-        alert('Email already exists');
-      }
-
-      if (error.response && error.response.data.error === 'Phone number already exists') {
-        alert('Phone number already exists');
-      }
-    }
+    dispatch(registerUser(data));
   };
 
   const onError = (errors, e) => console.log(errors, e);
+
+  const password = watch("password", "");
 
   return (
     <div>
@@ -100,10 +93,17 @@ export default function Register() {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Đăng ký
           </Typography>
-          <form onSubmit={handleSubmit(onSubmit, onError)} className="form-register">
+          <form
+            onSubmit={handleSubmit(onSubmit, onError)}
+            className="form-register"
+          >
             <div className="form-row">
               <div className="form-column">
-                <Typography variant="h6" component="h3" sx={{ fontSize: "1rem" }}>
+                <Typography
+                  variant="h6"
+                  component="h3"
+                  sx={{ fontSize: "1rem" }}
+                >
                   1. Thông tin cá nhân
                 </Typography>
                 <TextField
@@ -177,15 +177,23 @@ export default function Register() {
                     ),
                   }}
                 >
-                  <MenuItem value="Đại học Bách Khoa Hà Nội">Đại học Bách Khoa Hà Nội</MenuItem>
-                  <MenuItem value="Đại học Kinh tế Quốc dân">Đại học Kinh tế Quốc dân</MenuItem>
+                  <MenuItem value="Đại học Bách Khoa Hà Nội">
+                    Đại học Bách Khoa Hà Nội
+                  </MenuItem>
+                  <MenuItem value="Đại học Kinh tế Quốc dân">
+                    Đại học Kinh tế Quốc dân
+                  </MenuItem>
                 </TextField>
                 {errors.interests && (
                   <span style={{ color: "red" }}>Sở thích là bắt buộc</span>
                 )}
               </div>
               <div className="form-column">
-                <Typography variant="h6" component="h3" sx={{ fontSize: "1rem" }}>
+                <Typography
+                  variant="h6"
+                  component="h3"
+                  sx={{ fontSize: "1rem" }}
+                >
                   Thông tin tài khoản
                 </Typography>
                 <TextField
@@ -218,6 +226,7 @@ export default function Register() {
                     pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
                   })}
                   label="Mật khẩu (*)"
+                  type="password"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -235,11 +244,12 @@ export default function Register() {
                   fullWidth
                   sx={{ m: 2, width: "90%" }}
                   {...register("confirmPassword", {
-                    required: true,
-                    minLength: 8,
-                    pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                    required: "Xác nhận mật khẩu là bắt buộc",
+                    validate: (value) =>
+                      value === password || "Mật khẩu xác nhận không khớp",
                   })}
                   label="Xác nhận mật khẩu (*)"
+                  type="password"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -250,7 +260,7 @@ export default function Register() {
                 />
                 {errors.confirmPassword && (
                   <span style={{ color: "red" }}>
-                    Mật khẩu xác nhận phải có ít nhất 8 ký tự và chứa cả chữ và số
+                    {errors.confirmPassword.message}
                   </span>
                 )}
               </div>
@@ -270,7 +280,10 @@ export default function Register() {
             </Button>
 
             <p>
-              Đã có tài khoản? <a href="#" onClick={handleLoginClick}>đăng nhập ngay</a>
+              Đã có tài khoản?{" "}
+              <a href="#" onClick={handleLoginClick}>
+                đăng nhập ngay
+              </a>
             </p>
           </form>
         </Box>

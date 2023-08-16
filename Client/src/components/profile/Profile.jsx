@@ -1,41 +1,55 @@
-import React from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-
-import './profile.scss';
-import { updateUser } from '../../actions/userAction';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import "./profile.scss";
+import {
+  updateUserProfile,
+  authSlice,
+  validateToken,
+} from "../../featutes/user/userSlice.js";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const account = useSelector(state => state.authReducer?.account);
-  const userName = account.user.username;
+  const userState = useSelector((state) => state.auth.user);
+  const updateStatus = useSelector((state) => state.auth.updateStatus);
+
+  // useEffect(() => {
+  //   dispatch(validateToken());
+  // }, [dispatch]);
+
+  console.log(userState);
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    if (userState) {
+      setValue("fullName", userState.fullName);
+      setValue("schools", userState.schools);
+      setValue("email", userState.email);
+    }
+  }, [userState, setValue]);
+
+  useEffect(() => {
+    if (updateStatus === 1) {
+      toast.success("User updated successfully", { autoClose: 1500 });
+      dispatch(authSlice.actions.resetUpdateStatus());
+    }
+  }, [updateStatus, dispatch]);
+
   const onSubmit = async (data) => {
     try {
-      data.username = userName;
-      console.log(data)
-      const response = await axios.put('http://localhost:3000/update', data);
-      const account = response.data;
-      dispatch(updateUser(account));
-      if (response.data.message === "User updated successfully") {
-        alert('Update successful');
-        navigate('/');
-      }
-      if (response.data.message === "User not change") {
-        alert('Nothing change');
-      }
+      data.username = userState?.username;
+      dispatch(updateUserProfile(data));
     } catch (error) {
-      console.error('Can not update', error);
+      console.error("Can not update", error);
     }
   };
 
@@ -43,47 +57,47 @@ const Profile = () => {
     <div className="profile">
       <div className="container">
         <div className="profile-container">
-          <h2 className='profile-title'>Profile</h2>
+          <h2 className="profile-title">Profile</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
-              className='profile-input'
-              label="Full Name"
-              defaultValue={account?.user.fullName}
-              {...register('fullName')}
+              className="profile-input"
+              // label="Full Name"
+              // defaultValue={userState?.fullName}
+              {...register("fullName")}
               fullWidth
               error={!!errors.fullName}
-              helperText={errors.fullName ? 'Full Name is required' : ''}
+              helperText={errors.fullName ? "Full Name is required" : ""}
             />
             <br />
             <TextField
-              className='profile-input'
-              label="Schools"
-              defaultValue={account?.user.schools}
-              {...register('schools')}
+              className="profile-input"
+              // label="Schools"
+              // defaultValue={userState?.schools}
+              {...register("schools")}
               fullWidth
               error={!!errors.schools}
-              helperText={errors.schools ? 'Schools is required' : ''}
+              helperText={errors.schools ? "Schools is required" : ""}
             />
             <br />
             <TextField
-              className='profile-input'
-              label="Email"
-              defaultValue={account?.user.email}
-              {...register('email')}
+              className="profile-input"
+              // label="Email"
+              // defaultValue={userState?.email}
+              {...register("email")}
               fullWidth
               error={!!errors.email}
-              helperText={errors.email ? 'Email is required' : ''}
+              helperText={errors.email ? "Email is required" : ""}
             />
             <br />
-            {
-              account ? (
-                <div>
-                  <Button variant="contained" type="submit">
-                    Save
-                  </Button>
-                </div>
-              ) : ("")
-            }
+            {userState ? (
+              <div className="profile-button">
+                <Button variant="contained" type="submit">
+                  Save
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
           </form>
         </div>
       </div>

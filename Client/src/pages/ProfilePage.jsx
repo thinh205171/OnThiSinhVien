@@ -3,7 +3,7 @@ import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Profile from '../components/profile/Profile'
 
-function HomePage() {
+function ProfilePage() {
 
   return (
     <div >
@@ -14,4 +14,4 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default ProfilePage

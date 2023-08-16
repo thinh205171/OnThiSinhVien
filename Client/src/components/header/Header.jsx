@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { showLoginPopup } from '../../actions/loginActions';
-import { showRegisterPopup } from "../../actions/registerAction";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  showLoginPopup,
+  showRegisterPopup,
+} from "../../featutes/header/headerSlice";
 import "./header.scss";
+import { logoutUser, validateToken } from "../../featutes/user/userSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const account = useSelector(state => state.authReducer.account);
-
   const [isScrolling, setIsScrolling] = useState(false);
+  const userState = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,16 +29,21 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(validateToken());
+  }, [dispatch]);
+
   function handleLoginClick() {
-    dispatch(showLoginPopup())
+    dispatch(showLoginPopup());
   }
 
   function handleRegisterClick() {
-    dispatch(showRegisterPopup())
+    dispatch(showRegisterPopup());
   }
 
-  function handleProfileClick() {
-    navigate('/profile');
+  function handleLogoutClick() {
+    dispatch(logoutUser());
+    navigate("/");
   }
 
   return (
@@ -160,22 +165,27 @@ const Header = () => {
               </svg>
             </div>
             <div className="item-header">
-              {account ? (
+              {userState ? (
                 <div className="user-info">
-                  <p>{account.user?.fullName}</p>
+                  <p>{userState?.["fullName"]}</p>
                   <ul className="dropdown">
                     <li>
                       <Link to="/profile">Profile</Link>
                     </li>
                     <li>
-                      <a href="/">Logout</a>
+                      {/* <a href="/">Logout</a> */}
+                      <a onClick={handleLogoutClick}>Logout</a>
                     </li>
                   </ul>
                 </div>
               ) : (
                 <div className="action-header">
-                  <button className="login" onClick={handleLoginClick}>ĐĂNG NHẬP</button>
-                  <button className="signup" onClick={handleRegisterClick}>ĐĂNG KÝ</button>
+                  <button className="login" onClick={handleLoginClick}>
+                    ĐĂNG NHẬP
+                  </button>
+                  <button className="signup" onClick={handleRegisterClick}>
+                    ĐĂNG KÝ
+                  </button>
                 </div>
               )}
             </div>

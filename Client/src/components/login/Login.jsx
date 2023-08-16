@@ -1,20 +1,23 @@
-import React from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { hideRegisterPopup, showRegisterPopup } from "../../actions/registerAction";
-import { showLoginPopup, hideLoginPopup } from '../../actions/loginActions';
-import { loginSuccess } from "../../actions/userAction";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import axios from "axios";
+import {
+  showRegisterPopup,
+  hideLoginPopup,
+} from "../../featutes/header/headerSlice";
+import { loginUser } from "../../featutes/user/userSlice";
+
 import "./login.scss";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -34,13 +37,24 @@ export default function BasicModal() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
-    criteriaMode: "all"
+    criteriaMode: "all",
   });
   const dispatch = useDispatch();
   const showLoginPopup = useSelector(
-    (state) => state.loginReducer.showLoginPopup
+    (state) => state.headerPopup.showLoginPopup,
   );
+
+  const loginStatus = useSelector((state) => state.auth.loginStatus);
+
+  useEffect(() => {
+    if (loginStatus === 1) {
+      dispatch(hideLoginPopup());
+      toast.success("User login successfully", { autoClose: 1500 });
+      reset();
+    }
+  }, [loginStatus, dispatch, reset]);
 
   if (!showLoginPopup) {
     return null;
@@ -52,23 +66,14 @@ export default function BasicModal() {
 
   function handleRegisterClick() {
     dispatch(hideLoginPopup());
-    dispatch(showRegisterPopup())
+    dispatch(showRegisterPopup());
   }
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/login', data);
-      const account = response.data;
-      dispatch(loginSuccess(account));
-      alert('Login successful');
-      dispatch(hideLoginPopup());
-
-    } catch (error) {
-      console.error('User not found', error);
-
-      if (error.response && error.response.data.error === 'User not found') {
-        alert('User not found');
-      }
+      await dispatch(loginUser(data));
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -88,7 +93,7 @@ export default function BasicModal() {
             <TextField
               fullWidth
               sx={{ m: 2 }}
-              {...register("username", { required: true })}
+              {...register("username", { required: true, minLength: 8 })}
               placeholder="Tài khoản đăng nhập (*)"
               InputProps={{
                 startAdornment: (
@@ -98,12 +103,21 @@ export default function BasicModal() {
                 ),
               }}
             />
-            {errors.username && <span style={{ color: 'red' }}>Usename is required</span>}
+            {errors.username && (
+              <span style={{ color: "red" }}>
+                Tài khoản phải có ít nhất 8 ký tự
+              </span>
+            )}
             <TextField
               fullWidth
               sx={{ m: 1 }}
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: true,
+                minLength: 8,
+                pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              })}
               placeholder="Mật khẩu (*)"
+              type="password"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -112,8 +126,11 @@ export default function BasicModal() {
                 ),
               }}
             />
-            {errors.password && <span style={{ color: 'red' }}>Password is required</span>}
-
+            {errors.password && (
+              <span style={{ color: "red" }}>
+                Mật khẩu phải có ít nhất 8 ký tự và chứa cả chữ và số
+              </span>
+            )}
             <a href="/">Quên mật khẩu</a>
 
             <Button variant="contained" type="submit" className="login-button">
@@ -130,7 +147,12 @@ export default function BasicModal() {
               Facebook
             </Button>
 
-            <p>Không có tài khoản? <a href="#" onClick={handleRegisterClick}>đăng ký ngay</a></p>
+            <p>
+              Không có tài khoản?{" "}
+              <a href="#" onClick={handleRegisterClick}>
+                đăng ký ngay
+              </a>
+            </p>
           </form>
         </Box>
       </Modal>
