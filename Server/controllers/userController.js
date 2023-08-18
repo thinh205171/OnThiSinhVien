@@ -1,9 +1,8 @@
-const User = require("../models/User");
 const userService = require("../services/userService");
 const jwt = require("jsonwebtoken");
 
 const updateProfile = async (req, res) => {
-  const { fullName, schools, username, email } = req.body;
+  const { fullName, schools, email } = req.body;
   const token = req.cookies.token;
 
   if (!token) {

@@ -1,7 +1,6 @@
 // routes/userRoutes.js
 const express = require("express");
 const userController = require("../controllers/userController");
-const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
