@@ -71,6 +71,7 @@ export default function BasicModal() {
 
   const onSubmit = async (data) => {
     try {
+      console.log(typeof data)
       await dispatch(loginUser(data));
     } catch (e) {
       console.log(e);

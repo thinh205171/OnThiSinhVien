@@ -18,7 +18,7 @@ export default function Slider() {
   const pagination = {
     clickable: true,
     renderBullet: function (index, className) {
-      return '<span className="' + className + '">' + "</span>";
+      return '<span class="' + className + '">' + "</span>";
     },
   };
 

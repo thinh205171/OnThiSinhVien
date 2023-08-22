@@ -10,7 +10,7 @@ import "./styles.css";
 import "./feedback.scss";
 
 // import required modules
-import { Pagination } from "swiper/modules";
+import {Navigation, Pagination} from "swiper/modules";
 
 const Feedback = () => {
   const pagination = {
@@ -31,7 +31,8 @@ const Feedback = () => {
         slidesPerView={4}
         spaceBetween={40}
         pagination={pagination}
-        modules={[Pagination]}
+        navigation
+        modules={[Pagination, Navigation]}
         className="mySwiper"
       >
         <SwiperSlide>

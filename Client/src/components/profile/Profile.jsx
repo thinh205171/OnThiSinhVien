@@ -46,7 +46,6 @@ const Profile = () => {
 
   const onSubmit = async (data) => {
     try {
-      data.username = userState?.username;
       dispatch(updateUserProfile(data));
     } catch (error) {
       console.error("Can not update", error);
