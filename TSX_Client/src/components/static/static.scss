@@ -1,0 +1,99 @@
+.static-content {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 28.65%);
+    padding: 12px 15px !important;
+
+    .header-static-content {
+        color: #1c3967;
+        font-size: 16px;
+        font-weight: bold;
+        padding-bottom: 52px;
+        text-align: center;
+    }
+
+    .list-static-content {
+        .list-item-static {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .item-static {
+                padding: 0 52px 0 52px;
+                transition: 0.5s;
+
+                @media (max-width: 768px) {
+                    flex-basis: calc((100% / 3) - 20px);
+                }
+
+                .icon-item-static {
+                    height: 80px;
+                    width: 80px;
+                    background: #d5e2f3;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 100%;
+                    margin-bottom: 24px;
+                    margin-right: auto;
+                    margin-left: auto;
+
+                    @media (max-width: 768px) {
+                        img {
+                            width: 50%;
+                            height: 50%;
+                        }
+                    }
+                }
+
+                .number-item-static {
+                    color: #065a9e;
+                    font-size: 30px;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 16px;
+                    @media (max-width: 768px) {
+                        font-size: 30px;
+                    }
+                }
+
+                .text-item-static {
+                    font-size: 14px;
+                    text-align: center;
+                    color: rgb(113, 113, 113);
+                    margin-bottom: 12px;
+                    @media (max-width: 768px) {
+                        font-size: 16px;
+                    }
+                }
+
+                &:hover {
+                    top: -5px;
+                    transform: translateY(-5%);
+
+                    .icon-item-static {
+                        background-color: #ec1f24;
+                        box-shadow: 5px 5px rgba(252, 210, 211);
+
+                        img {
+                            filter: brightness(0) invert(1);
+                        }
+                    }
+
+                    .text-item-static,
+                    .number-item-static {
+                        color: #ec1f24;
+                    }
+                }
+
+                &:nth-child(5) {
+                    @media (max-width: 768px) {
+                        img {
+                            width: 90%;
+                            height: 90%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

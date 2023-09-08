@@ -1,0 +1,121 @@
+#footer {
+    background: #dbe3ef;
+    padding-top: 50px;
+    padding-bottom: 20px;
+
+    .footer-list {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: stretch;
+        margin: auto;
+
+        .footer-header {
+            color: #556372;
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .footer-item-detail {
+            a {
+                color: #556372;
+                font-size: 15px;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
+                display: block;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            span {
+                display: block;
+                margin-bottom: 12px;
+                font-size: 15px;
+                color: #4f4f4f;
+            }
+
+            > div {
+                display: flex;
+
+                img {
+                    width: 150px;
+                    height: 100%;
+                    display: block;
+                    margin-bottom: 12px;
+                }
+            }
+
+            iframe {
+                margin-left: 12px;
+            }
+        }
+
+        .cooperate {
+            img {
+                width: 50px;
+                height: 100%;
+            }
+        }
+
+        .policy {
+            padding-left: 36px;
+        }
+
+        .download {
+            img {
+                width: 175px;
+                height: 100%;
+                display: block;
+                margin-bottom: 12px;
+            }
+
+            .connect-social-list {
+                display: flex;
+
+                a {
+                    display: block;
+                    margin-right: 12px;
+                }
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+
+            > div {
+                padding: 0 36px;
+            }
+        }
+    }
+
+    .footer-address {
+        color: #556372;
+        font-size: 15px;
+        margin: auto;
+        padding-left: 12px;
+
+        a {
+            color: #556372;
+
+            svg {
+                width: 20px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        width: 768px;
+    }
+}
+
+.scroll {
+    top: 0 !important;
+    background-color: #d5e2f7 !important;
+}

@@ -1,0 +1,160 @@
+.uniList-content {
+    margin-top: 32px;
+
+    .header-content {
+        text-align: center;
+
+        h2 {
+            color: #1c3967;
+            font-weight: 700;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .sub-header-content {
+            color: #4b4b4b;
+        }
+    }
+
+    .search-box {
+        padding-top: 28px !important;
+        padding-bottom: 36px !important;
+        position: relative;
+
+        input {
+            position: absolute;
+            width: 40%;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 0;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            padding-left: 30px !important;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+        .icon-search {
+            position: absolute;
+            right: 32%;
+            transform: translate(0, 50%);
+        }
+    }
+    .uniList-detail-content {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+
+        > div {
+            display: flex;
+            flex-direction: column;
+
+            .item-uni-detail {
+                padding: 8px;
+                background-color: #fff;
+                text-decoration: none;
+                border-radius: 15px;
+                color: #333;
+                margin-bottom: 24px;
+                width: 95%;
+
+                @media (max-width: 768px) {
+                    width: 100%;
+                }
+
+                .uni-detail {
+                    display: flex;
+                    margin-bottom: 16px;
+
+                    .img-Uni {
+                        img {
+                            width: 50px;
+                            height: 50px;
+                            margin-right: 10px;
+                        }
+                    }
+
+                    .info-Uni {
+                        margin-left: 8px;
+                        padding: 0 20px 0 0;
+
+                        .tag-Uni {
+                            font-weight: 600;
+                            font-size: 14px;
+                            color: #8c97b5;
+                            margin-bottom: 4px;
+                        }
+
+                        .name-Uni {
+                            height: 40px;
+                            font-weight: bold;
+                            font-size: 15px;
+                            color: #1c3967;
+                        }
+                    }
+                }
+
+                .course-static {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    > div {
+                        display: flex;
+                        align-items: center;
+
+                        span {
+                            color: #94a6c0;
+                            font-weight: 500;
+                            font-size: 13px;
+                            margin-left: 8px;
+                        }
+                    }
+
+                    button {
+                        color: #94a6c0;
+                        font-weight: 500;
+                        font-size: 13px;
+                        padding: 5px 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 18px;
+                        font-style: italic;
+                        margin-left: 4.5em;
+                        background-color: #fff;
+                    }
+                }
+
+                &:hover {
+                    background-color: #ec1f24;
+
+                    .info-Uni {
+                        .name-Uni {
+                            color: #fff;
+                        }
+
+                        .tag-Uni {
+                            color: #fff;
+                        }
+                    }
+
+                    .course-static {
+                        img {
+                            filter: brightness(0) invert(1);
+                        }
+
+                        span {
+                            color: #fff;
+                        }
+                        button {
+                            color: #fff;
+                            background-color: #ec1f24;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
