@@ -1,0 +1,27 @@
+.profile {
+  margin-top: 100px;
+  padding: 12px 0 24px 0;
+
+  .container {
+    .profile-container {
+      width: 70%;
+      margin: 0 auto;
+
+      .profile-title {
+        text-align: center;
+        font-size: 32px;
+        color: rgb(29, 110, 181);
+        padding-bottom: 12px;
+      }
+
+      .profile-input {
+        margin-bottom: 18px;
+      }
+
+      .profile-button {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

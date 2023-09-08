@@ -1,0 +1,51 @@
+.card {
+    position: relative;
+    background: #fff;
+    width: 48%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    transition: 0.3s;
+    margin-bottom: 20px;
+
+    .image-box {
+        height: 250px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+
+        img {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+            object-fit: cover;
+            display: inline-block;
+        }
+    }
+
+    .news-content {
+        padding: 10px 10px 15px 15px;
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 768px) {
+    .news-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}

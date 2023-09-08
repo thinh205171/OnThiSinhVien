@@ -1,0 +1,45 @@
+.news {
+    margin-top: 100px;
+    padding: 12px 0 24px 0;
+
+    .container {
+        display: flex;
+
+        .sidenav-category {
+            ul {
+                width: 250px;
+                background-color: #fff;
+                border-radius: 10px;
+
+                li {
+                    display: block;
+                    color: black;
+                    padding-left: 16px;
+                    padding-top: 10px;
+                    padding-bottom: 5px;
+                    transition: color 0.3s ease;
+                    border-bottom: 2px solid #f4f8fe;
+
+                    &:hover,
+                    &:focus {
+                        color: #e10422;
+                        background-color: #f4f8fe;
+                        cursor: pointer;
+                    }
+                }
+                li.focused {
+                    color: #e10422;
+                    background-color: #f4f8fe;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .news-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-left: 20px;
+        }
+    }
+}
